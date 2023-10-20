@@ -19,7 +19,7 @@ const HeroBanner = () => {
       <Typography
         fontWeight={700}
         sx={{ fontSize: { lg: "44px", xs: "40px " } }}
-        mb = "23px" mt = "300px"
+        mb = "23px" mt = "50px"
       >
         Sweat,smile <br /> and Repeat
       </Typography>
