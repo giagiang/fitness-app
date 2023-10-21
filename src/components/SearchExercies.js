@@ -1,22 +1,43 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Stack, Button, TextField, Typography } from "@mui/material";
 
-const SearchExercies = () => {
-  const [search, setSearch] = useState('')
-  const handleSearch =  () =>{
-    if (search){
-      
+import { exerciseOptions, fetchData } from "../utils/fetchData";
+import { ConstructionOutlined } from "@mui/icons-material";
+
+const SearchExercise = () => {
+  const [search, setSearch] = useState("");
+  const [exercise, setExercise] = useState([]);
+
+  const handleSearch = async () => {
+    debugger
+    if(search){
+      const exerciseData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises",
+        exerciseOptions
+      );
+      console.info("ex data", exerciseData)
+      debugger
+      const searchedExercise = exerciseData.filter(
+        (exercise) =>
+        exercise.name.toLowerCase().includes(search) ||
+        exercise.target.toLowerCase().includes(search) ||
+        exercise.equipment.toLowerCase().includes(search) ||
+        exercise.bodyPart.toLowerCase().includes(search)
+          
+      );
+      setSearch("");
+      setExercise(searchedExercise);
     }
-  }
+  };
   return (
-    <Stack alignItems="center" margin-top="37px" justifyContent="center" p="10">
+    <Stack alignItems="center" margin-top="37px" justifyContent="center" p="20">
       <Typography
         fontWeight={700}
         sx={{ fontSize: { lg: "45px", xs: "30px" } }}
         mb="50px"
         textAlign="center"
       >
-        Awesome Exercies You <br /> Should You
+        Awesome Exercise You <br /> Should You
       </Typography>
       <Box position="relative" mb="72px">
         <TextField
@@ -28,7 +49,7 @@ const SearchExercies = () => {
           }}
           height="76px"
           value={search}
-          onChange={(e) => search(e.target.value.toLowerCase())}
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
           placeholder="Search Exercies"
           type="text"
         />
@@ -44,7 +65,7 @@ const SearchExercies = () => {
             position: "absolute",
             right: "1px",
           }}
-          onclick= {handleSearch}
+          onClick={handleSearch}
         >
           Search
         </Button>
@@ -53,4 +74,4 @@ const SearchExercies = () => {
   );
 };
 
-export default SearchExercies;
+export default SearchExercise;
