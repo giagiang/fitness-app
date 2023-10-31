@@ -6,22 +6,18 @@ import ExerciseCard from "./ExerciseCard";
 const Exercise = ({ exercises, setExercises, bodyPart }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [exercisesPerPage] = useState(6);
-
   const indexOfLastExercise = currentPage * exercisesPerPage;
-debugger
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercises = exercises.slice
-  (
+  const currentExercises = exercises.slice(
     indexOfFirstExercise,
     indexOfLastExercise
-  ); 
-debugger
+  );
+
   const paginate = (e, value) => {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
   useEffect(() => {
-    // debugger
     const fetchExerciseData = async () => {
       let exercisesData = [];
       if (bodyPart === "all") {
@@ -31,12 +27,14 @@ debugger
         );
       } else {
         exercisesData = await fetchData(
-          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,exerciseOptions);
+          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
+          exerciseOptions
+        );
       }
       setExercises(exercisesData);
     };
     fetchExerciseData();
-  },[bodyPart]);
+  }, [bodyPart]);
   return (
     <Box id="exercise" sx={{ mt: { lg: "110" } }} mt="50" p="20px">
       <Typography variant="h3" mb="46px">
